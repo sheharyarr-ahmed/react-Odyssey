@@ -1,3 +1,4 @@
+import { useState } from "react";
 import "./index.css";
 const initialItems = [
   { id: 1, description: "Passports", quantity: 2, packed: false },
@@ -19,21 +20,43 @@ function Logo() {
   return <h1>FAR AWAY</h1>;
 }
 function Form() {
+  //implementation of controlled element in the forms
+  const [description, setDescription] = useState("");
+  const [quantity, setQuantity] = useState(5);
   function handleSubmit(e) {
     e.preventDefault();
+    if (!description) return;
+
+    const newItem = {
+      description,
+      quantity,
+      packed: false,
+      id: Date.now(),
+    };
+    console.log(newItem);
+    setDescription("");
+    setQuantity(5);
   }
   return (
     <form className="add-form" onSubmit={handleSubmit}>
       {/* the onSubmit is an forms special property */}
       <h3>WHAT DO YOU NEED FOR YOUR TRIP?</h3>
-      <select>
+      <select
+        value={quantity}
+        onChange={(e) => setQuantity(Number(e.target.value))}
+      >
         {Array.from({ length: 20 }, (_, i) => i + 1).map((num) => (
           <option value={num} key={num}>
             {num}
           </option>
         ))}
       </select>
-      <input type="text" placeholder="ITEM..."></input>
+      <input
+        type="text"
+        placeholder="ITEM..."
+        value={description} //implementation of controlled element
+        onChange={(e) => setDescription(e.target.value)} //implementation of controlled element
+      />
       <button>Add</button>
     </form>
   );
