@@ -19,10 +19,23 @@ function Logo() {
   return <h1>FAR AWAY</h1>;
 }
 function Form() {
+  function handleSubmit(e) {
+    e.preventDefault();
+  }
   return (
-    <div className="add-form">
-      <h3>WHAT DO YOU NEED FOR YOUR TRIP</h3>
-    </div>
+    <form className="add-form" onSubmit={handleSubmit}>
+      {/* the onSubmit is an forms special property */}
+      <h3>WHAT DO YOU NEED FOR YOUR TRIP?</h3>
+      <select>
+        {Array.from({ length: 20 }, (_, i) => i + 1).map((num) => (
+          <option value={num} key={num}>
+            {num}
+          </option>
+        ))}
+      </select>
+      <input type="text" placeholder="ITEM..."></input>
+      <button>Add</button>
+    </form>
   );
 }
 function PackingList() {
@@ -30,7 +43,7 @@ function PackingList() {
     <div className="list">
       <ul>
         {initialItems.map((item) => (
-          <Item item={item} />
+          <Item item={item} key={item.id} />
         ))}
       </ul>
     </div>
@@ -39,7 +52,7 @@ function PackingList() {
 function Stats() {
   return (
     <footer className="stats">
-      YOU HAVE X ITEMS ON YOUR LSIT, AND YOU ALREADY PACKED X (X%)
+      YOU HAVE X ITEMS ON YOUR LIST, AND YOU ALREADY PACKED X (X%)
     </footer>
   );
 }
