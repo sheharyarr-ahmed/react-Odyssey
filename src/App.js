@@ -26,6 +26,14 @@ export default function App() {
       )
     );
   }
+
+  function handleClearList() {
+    const confirmed = window.confirm(
+      "ARE YOU SURE YOU WANT TO DELETE ALL ITEMS "
+    );
+
+    if (confirmed) setItems([]);
+  }
   return (
     <div className="app">
       <Logo />
@@ -34,6 +42,7 @@ export default function App() {
         items={items}
         onDeleteItem={handleDeleteItem}
         onToggleItem={handleToggleItem}
+        onClearList={handleClearList}
       />
       <Stats items={items} />
     </div>
@@ -88,7 +97,7 @@ function Form({ onAddItems }) {
     </form>
   );
 }
-function PackingList({ items, onDeleteItem, onToggleItem }) {
+function PackingList({ items, onDeleteItem, onToggleItem, onClearList }) {
   // making an controlled element
   const [sortBy, setSortBy] = useState("input");
   let sortedItems; // we created this variabe beacause we dont want to make anothet useState because we jsut want to do computation on sortBy piece of state so thats why we derived the sortBy state and did some computation on it.
@@ -113,13 +122,14 @@ function PackingList({ items, onDeleteItem, onToggleItem }) {
           />
         ))}
       </ul>
-      <div>
+      <div className="actions">
         {/* assigning the value of that controlled element */}
         <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
           <option value="input">SORT BY THE INPUT ORDER</option>
           <option value="description">SORT BY THE DESCRIPTION</option>
           <option value="packed">SORT BY THE PACKED STATUS</option>
         </select>
+        <button onClick={onClearList}>CLEAR LIST</button>
       </div>
     </div>
   );
